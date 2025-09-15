@@ -26,9 +26,12 @@ module tb ();
   wire VPWR = 1'b1;
   wire VGND = 1'b0;
 `endif
+   
+initial clk = 0;
+always #5 clk = ~clk;
 
   // Replace tt_um_example with your module name:
-  tt_um_example user_project (
+   tt_um_customalu user_project (
 
       // Include power ports for the Gate Level test:
 `ifdef GL_TEST
@@ -45,5 +48,24 @@ module tb ();
       .clk    (clk),      // clock
       .rst_n  (rst_n)     // not reset
   );
+ 
+  initial begin
+        rst_n = 0;
+        #20;
+        rst_n = 1;
+    end
+
+    // Test sequence
+    initial begin
+        ui_in = 8'b0000_0000;
+// Initialize inputs 
+ena = 0; 
+clk = 0; 
+rst_n = 1; 
+ui_in = 8'b0; 
+uio_in = 8'b0; 
+
+end
+
 
 endmodule
